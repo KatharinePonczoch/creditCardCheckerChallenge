@@ -1,3 +1,4 @@
+"use strict";
 // All valid credit card numbers
 const valid1 = [4, 5, 3, 9, 6, 7, 7, 9, 0, 8, 0, 1, 6, 8, 0, 8];
 const valid2 = [5, 5, 3, 5, 7, 6, 6, 7, 6, 8, 7, 5, 1, 4, 3, 9];
@@ -85,8 +86,10 @@ function validateCred(num) {
     total += newArr[i];
   }
   if (total % 10 === 0) {
+    document.getElementById("validate").innerHTML = true;
     return true;
   } else {
+    document.getElementById("validate").innerHTML = false;
     return false;
   }
 }
@@ -99,15 +102,21 @@ function findInvalidCards(arr) {
       invalidCards.push(arr[i]);
     }
   }
-  console.log("invalid card #s", invalidCards);
+  //console.log("invalid card #s", invalidCards);
 
   const invalidCardsCopy = [...invalidCards];
-  console.log("copy numbers before: ", invalidCardsCopy);
+  //console.log("copy numbers before: ", invalidCardsCopy);
   for (let i = 0; i < invalidCards.length; i++) {
-    invalidCardsCopy[i] = invalidCards.join("");
-    console.log("copy : ", invalidCardsCopy[i]);
+    invalidCardsCopy[i] = invalidCards[i].join("");
   }
-  //return invalidCards;
+  const lists = [];
+  for (let i = 0; i < invalidCardsCopy.length; i++) {
+    const item = document.createElement("li");
+    lists[i] = document.createTextNode(invalidCardsCopy[i]);
+    item.appendChild(lists[i]);
+    document.getElementById("invalid").appendChild(item);
+  }
+  return invalidCards;
 }
 
 function idInvalidCardCompanies(arr) {
@@ -142,8 +151,8 @@ function idInvalidCardCompanies(arr) {
 }
 
 //console.log(idInvalidCardCompanies(invalids));
-findInvalidCards(batch);
-//console.log("is it valid? ", validateCred(mystery5));
+//findInvalidCards(batch);
+console.log("is it valid? ", validateCred(mystery5));
 //console.log("Invalid cards: ", findInvalidCards(batch));
 //console.log(findInvalidCards(batch));
-//console.log(idInvalidCardCompanies(findInvalidCards(batch)));
+idInvalidCardCompanies(findInvalidCards(batch));
